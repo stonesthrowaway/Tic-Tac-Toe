@@ -11,27 +11,53 @@ namespace TicTacToe
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
-
-        Image imageX = Image.FromFile(@"C:\Users\Vorpel\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\Resources\tictactoex.jpg");
-        Image imageO = Image.FromFile(@"C:\Users\Vorpel\Documents\Visual Studio 2010\Projects\WindowsFormsApplication2\WindowsFormsApplication2\Resources\tictactoeO.jpg");
-        string turn = "x";
+        PictureBox[,] picGrid = new PictureBox[3, 3];
+        int[] wins = new int[2] { 0, 0 };
         string[,] board = new string[3, 3] { { null, null, null }, 
                                              { null, null, null }, 
                                              { null, null, null } };
         bool isValid = true;
         int xwins = 0;
         int owins = 0;
+        byte movesMade = 0;
+        string turn = "X";
+        bool gameOver = false;
+        
+        public Form1()
+        {
+            InitializeComponent();
+            
+            picGrid[0, 0] = pictureBox1;
+            picGrid[0, 1] = pictureBox2;
+            picGrid[0, 2] = pictureBox3;
+            picGrid[1, 0] = pictureBox4;
+            picGrid[1, 1] = pictureBox5;
+            picGrid[1, 2] = pictureBox6;
+            picGrid[2, 0] = pictureBox7;
+            picGrid[2, 1] = pictureBox8;
+            picGrid[2, 2] = pictureBox9;
+            
+        }
 
-        public void validMove(byte x, byte y, string turn)
+        private void move(byte x, byte y) 
+        {
+            if (gameOver != true)
+                validMove(x, y);
+
+            if (isValid && gameOver != true)
+            {
+                doMove(x, y, turn);
+                movesMade += 1;
+                checkWin(turn);
+                changeTurn();
+            }
+        }
+        
+        private void validMove(byte x, byte y)
         {
             if (board[x, y] == null)
             {
                 isValid = true;
-                board[x, y] = turn;
             }
             else
             {
@@ -40,236 +66,217 @@ namespace TicTacToe
             }
         }
         
-        private void doMove(byte x, byte y)
+        private void doMove(byte x, byte y, string turn)
         {
-            if (turn == "x")
+            switch (turn)
             {
-                pictureBox1.Image = imageX;
-                pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                turn = "o";
+                case "X":
+                    board[x, y] = turn;
+                    picGrid[x, y].Image = Properties.Resources.tictactoeX;
+                    picGrid[x, y].SizeMode = PictureBoxSizeMode.CenterImage;
+                    break;
+                case "O":
+                    board[x, y] = turn;
+                    picGrid[x, y].Image = Properties.Resources.tictactoeO;
+                    picGrid[x, y].SizeMode = PictureBoxSizeMode.CenterImage;
+                    break;
             }
-            else
+            
+        }
+
+        private void checkWin(string turn) 
+        {
+            //Win down left side
+            if (board[0, 0] == turn && board[1, 0] == turn && board[2, 0] == turn)
             {
-                pictureBox4.Image = imageO;
-                pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
-                turn = "x";
+                winPicChange(0, 0, 1, 0, 2, 0, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win down the middle
+            else if (board[0, 1] == turn && board[1, 1] == turn && board[2, 1] == turn)
+            {
+                winPicChange(0, 1, 1, 1, 2, 1, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win down right side
+            else if (board[0, 2] == turn && board[1, 2] == turn && board[2, 2] == turn)
+            {
+                winPicChange(0, 2, 1, 2, 2, 2, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win across top
+            else if (board[0, 0] == turn && board[0, 1] == turn && board[0, 2] == turn)
+            {
+                winPicChange(0, 0, 0, 1, 0, 2, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win across middle
+            else if (board[1, 0] == turn && board[1, 1] == turn && board[1, 2] == turn)
+            {
+                winPicChange(1, 0, 1, 1, 1, 2, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win across bottom
+            else if (board[2, 0] == turn && board[2, 1] == turn && board[2, 2] == turn)
+            {
+                winPicChange(2, 0, 2, 1, 2, 2, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win from top left to bottom right
+            else if (board[0, 0] == turn && board[1, 1] == turn && board[2, 2] == turn)
+            {
+                winPicChange(0, 0, 1, 1, 2, 2, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Win from top right to bottom left
+            else if (board[0, 2] == turn && board[1, 1] == turn && board[2, 0] == turn)
+            {
+                winPicChange(0, 2, 1, 1, 2, 0, turn);
+                MessageBox.Show(turn + " Wins!");
+                gameOver = true;
+                results(turn);
+            }
+
+            //Draw
+            else if(movesMade == 9 && gameOver != true)
+            {
+                MessageBox.Show("It's a Draw!");
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void changeTurn()
         {
-            validMove(0, 0, turn);
+            if (turn == "X")
+                turn = "O";
+            else
+                turn = "X";
+        }
 
-            if (isValid)
+        private void clearGame() 
+        {
+            for (int i = 0; i < 3; i++)
             {
-                if (turn == "x")
+                for (int j = 0; j < 3; j++)
                 {
-                    pictureBox1.Image = imageX;
-                    pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox1.Image = imageO;
-                    pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
+                    picGrid[i, j].Image = null;
                 }
             }
+
+            turn = "x";
+            movesMade = 0;
+            isValid = true;
+            gameOver = false;
+            Array.Clear(board, 0, board.Length);
+        }
+
+        private void results(string turn)
+        {
+            //Display who won
+            switch (turn)
+            {
+                case "X":
+                    xwins += 1;
+                    labelGamesWonXDisplay.Text = xwins.ToString();
+                    break;
+                case "O":
+                    owins += 1;
+                    labelGamesWonODisplay.Text = owins.ToString();
+                    break;
+            }
+        }
+
+        private void winPicChange(byte x1, byte y1, byte x2, byte y2, byte x3, byte y3, string turn)
+        {
+            //Change the winning tiles red
+            switch (turn) 
+            { 
+                case "X":
+                    picGrid[x1, y1].Image = Properties.Resources.tictactoeXWins;
+                    picGrid[x2, y2].Image = Properties.Resources.tictactoeXWins;
+                    picGrid[x3, y3].Image = Properties.Resources.tictactoeXWins;
+                    break;
+                case "O":
+                    picGrid[x1, y1].Image = Properties.Resources.tictactoeOWin;
+                    picGrid[x2, y2].Image = Properties.Resources.tictactoeOWin;
+                    picGrid[x3, y3].Image = Properties.Resources.tictactoeOWin;
+                    break;
+            }
+        }
+        
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            move(0, 0);
         }
         
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            validMove(0, 1, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox2.Image = imageX;
-                    pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox2.Image = imageO;
-                    pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(0, 1);
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            validMove(0, 2, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox3.Image = imageX;
-                    pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox3.Image = imageO;
-                    pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(0, 2);
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            validMove(1, 0, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox4.Image = imageX;
-                    pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox4.Image = imageO;
-                    pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(1, 0);
         }
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            validMove(1, 1, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox5.Image = imageX;
-                    pictureBox5.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox5.Image = imageO;
-                    pictureBox5.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(1, 1);
         }
 
         private void pictureBox6_Click(object sender, EventArgs e)
         {
-            validMove(1, 2, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox6.Image = imageX;
-                    pictureBox6.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox6.Image = imageO;
-                    pictureBox6.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(1, 2);
         }
 
         private void pictureBox7_Click(object sender, EventArgs e)
         {
-            validMove(2, 0, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox7.Image = imageX;
-                    pictureBox7.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox7.Image = imageO;
-                    pictureBox7.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(2, 0);
         }
 
         private void pictureBox8_Click(object sender, EventArgs e)
         {
-            validMove(2, 1, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox8.Image = imageX;
-                    pictureBox8.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox8.Image = imageO;
-                    pictureBox8.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(2, 1);
         }
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-            validMove(2, 2, turn);
-
-            if (isValid)
-            {
-                if (turn == "x")
-                {
-                    pictureBox9.Image = imageX;
-                    pictureBox9.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "o";
-                }
-
-                else
-                {
-                    pictureBox9.Image = imageO;
-                    pictureBox9.SizeMode = PictureBoxSizeMode.CenterImage;
-                    turn = "x";
-                }
-            }
+            move(2, 2);
         }
 
         private void buttonClearGame_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = null;
-            pictureBox2.Image = null;
-            pictureBox3.Image = null;
-            pictureBox4.Image = null;
-            pictureBox5.Image = null;
-            pictureBox6.Image = null;
-            pictureBox7.Image = null;
-            pictureBox8.Image = null;
-            pictureBox9.Image = null;
-            turn = "x";
-            isValid = true;
-            Array.Clear(board, 0, board.Length);
-            //xwins += 1;
-            //labelGamesWonODisplay.Text = xwins.ToString();
+            clearGame();
+        }
+
+        private void buttonClearScore_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

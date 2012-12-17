@@ -28,7 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonClearGame = new System.Windows.Forms.Button();
+            this.labelGamesWon = new System.Windows.Forms.Label();
+            this.labelGamesWonX = new System.Windows.Forms.Label();
+            this.labelGamesWonO = new System.Windows.Forms.Label();
+            this.labelGamesWonXDisplay = new System.Windows.Forms.Label();
+            this.labelGamesWonODisplay = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -39,11 +45,7 @@
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBoxGrid = new System.Windows.Forms.PictureBox();
-            this.labelGamesWon = new System.Windows.Forms.Label();
-            this.labelGamesWonX = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelGamesWonXDisplay = new System.Windows.Forms.Label();
-            this.labelGamesWonODisplay = new System.Windows.Forms.Label();
+            this.buttonClearScore = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -58,13 +60,58 @@
             // 
             // buttonClearGame
             // 
-            this.buttonClearGame.Location = new System.Drawing.Point(347, 293);
+            this.buttonClearGame.Location = new System.Drawing.Point(347, 71);
             this.buttonClearGame.Name = "buttonClearGame";
             this.buttonClearGame.Size = new System.Drawing.Size(75, 23);
             this.buttonClearGame.TabIndex = 21;
-            this.buttonClearGame.Text = "Clear Game";
+            this.buttonClearGame.Text = "New Game";
             this.buttonClearGame.UseVisualStyleBackColor = true;
             this.buttonClearGame.Click += new System.EventHandler(this.buttonClearGame_Click);
+            // 
+            // labelGamesWon
+            // 
+            this.labelGamesWon.AutoSize = true;
+            this.labelGamesWon.Location = new System.Drawing.Point(344, 9);
+            this.labelGamesWon.Name = "labelGamesWon";
+            this.labelGamesWon.Size = new System.Drawing.Size(69, 13);
+            this.labelGamesWon.TabIndex = 22;
+            this.labelGamesWon.Text = "Games Won:";
+            // 
+            // labelGamesWonX
+            // 
+            this.labelGamesWonX.AutoSize = true;
+            this.labelGamesWonX.Location = new System.Drawing.Point(347, 26);
+            this.labelGamesWonX.Name = "labelGamesWonX";
+            this.labelGamesWonX.Size = new System.Drawing.Size(17, 13);
+            this.labelGamesWonX.TabIndex = 23;
+            this.labelGamesWonX.Text = "X:";
+            // 
+            // labelGamesWonO
+            // 
+            this.labelGamesWonO.AutoSize = true;
+            this.labelGamesWonO.Location = new System.Drawing.Point(347, 43);
+            this.labelGamesWonO.Name = "labelGamesWonO";
+            this.labelGamesWonO.Size = new System.Drawing.Size(18, 13);
+            this.labelGamesWonO.TabIndex = 24;
+            this.labelGamesWonO.Text = "O:";
+            // 
+            // labelGamesWonXDisplay
+            // 
+            this.labelGamesWonXDisplay.AutoSize = true;
+            this.labelGamesWonXDisplay.Location = new System.Drawing.Point(370, 26);
+            this.labelGamesWonXDisplay.Name = "labelGamesWonXDisplay";
+            this.labelGamesWonXDisplay.Size = new System.Drawing.Size(13, 13);
+            this.labelGamesWonXDisplay.TabIndex = 25;
+            this.labelGamesWonXDisplay.Text = "0";
+            // 
+            // labelGamesWonODisplay
+            // 
+            this.labelGamesWonODisplay.AutoSize = true;
+            this.labelGamesWonODisplay.Location = new System.Drawing.Point(371, 43);
+            this.labelGamesWonODisplay.Name = "labelGamesWonODisplay";
+            this.labelGamesWonODisplay.Size = new System.Drawing.Size(13, 13);
+            this.labelGamesWonODisplay.TabIndex = 26;
+            this.labelGamesWonODisplay.Text = "0";
             // 
             // pictureBox1
             // 
@@ -167,57 +214,25 @@
             this.pictureBoxGrid.TabIndex = 11;
             this.pictureBoxGrid.TabStop = false;
             // 
-            // labelGamesWon
+            // buttonClearScore
             // 
-            this.labelGamesWon.AutoSize = true;
-            this.labelGamesWon.Location = new System.Drawing.Point(344, 9);
-            this.labelGamesWon.Name = "labelGamesWon";
-            this.labelGamesWon.Size = new System.Drawing.Size(69, 13);
-            this.labelGamesWon.TabIndex = 22;
-            this.labelGamesWon.Text = "Games Won:";
-            // 
-            // labelGamesWonX
-            // 
-            this.labelGamesWonX.AutoSize = true;
-            this.labelGamesWonX.Location = new System.Drawing.Point(347, 26);
-            this.labelGamesWonX.Name = "labelGamesWonX";
-            this.labelGamesWonX.Size = new System.Drawing.Size(17, 13);
-            this.labelGamesWonX.TabIndex = 23;
-            this.labelGamesWonX.Text = "X:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(347, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 13);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "O:";
-            // 
-            // labelGamesWonXDisplay
-            // 
-            this.labelGamesWonXDisplay.AutoSize = true;
-            this.labelGamesWonXDisplay.Location = new System.Drawing.Point(370, 26);
-            this.labelGamesWonXDisplay.Name = "labelGamesWonXDisplay";
-            this.labelGamesWonXDisplay.Size = new System.Drawing.Size(0, 13);
-            this.labelGamesWonXDisplay.TabIndex = 25;
-            // 
-            // labelGamesWonODisplay
-            // 
-            this.labelGamesWonODisplay.AutoSize = true;
-            this.labelGamesWonODisplay.Location = new System.Drawing.Point(371, 43);
-            this.labelGamesWonODisplay.Name = "labelGamesWonODisplay";
-            this.labelGamesWonODisplay.Size = new System.Drawing.Size(0, 13);
-            this.labelGamesWonODisplay.TabIndex = 26;
+            this.buttonClearScore.Location = new System.Drawing.Point(347, 101);
+            this.buttonClearScore.Name = "buttonClearScore";
+            this.buttonClearScore.Size = new System.Drawing.Size(75, 23);
+            this.buttonClearScore.TabIndex = 27;
+            this.buttonClearScore.Text = "Clear Score";
+            this.buttonClearScore.UseVisualStyleBackColor = true;
+            this.buttonClearScore.Click += new System.EventHandler(this.buttonClearScore_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(440, 342);
+            this.Controls.Add(this.buttonClearScore);
             this.Controls.Add(this.labelGamesWonODisplay);
             this.Controls.Add(this.labelGamesWonXDisplay);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelGamesWonO);
             this.Controls.Add(this.labelGamesWonX);
             this.Controls.Add(this.labelGamesWon);
             this.Controls.Add(this.buttonClearGame);
@@ -231,9 +246,12 @@
             this.Controls.Add(this.pictureBox8);
             this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.pictureBoxGrid);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Tic-Tac-Toe";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -264,9 +282,10 @@
         private System.Windows.Forms.PictureBox pictureBoxGrid;
         private System.Windows.Forms.Label labelGamesWon;
         private System.Windows.Forms.Label labelGamesWonX;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelGamesWonO;
         private System.Windows.Forms.Label labelGamesWonXDisplay;
         private System.Windows.Forms.Label labelGamesWonODisplay;
+        private System.Windows.Forms.Button buttonClearScore;
 
     }
 }

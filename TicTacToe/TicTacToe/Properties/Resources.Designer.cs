@@ -66,5 +66,33 @@ namespace TicTacToe.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap tictactoeO {
+            get {
+                object obj = ResourceManager.GetObject("tictactoeO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tictactoeOWin {
+            get {
+                object obj = ResourceManager.GetObject("tictactoeOWin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tictactoeX {
+            get {
+                object obj = ResourceManager.GetObject("tictactoeX", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tictactoeXWins {
+            get {
+                object obj = ResourceManager.GetObject("tictactoeXWins", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
